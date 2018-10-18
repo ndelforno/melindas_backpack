@@ -10,16 +10,22 @@ class Backpack
   end
 
   def prepare
-    # set up local variables used by rest of prepare method
-    x = @attributes[:weather]
-    day_of_week = @attributes[:day_of_week]
-
     # Ensure appropriate clothing is added to backpack
-    if x == 'rainy'
+    ensure_appropriate_clothing
+    # Ensure gym shoes are added to backpack if it's a gym day
+    ensure_gym_shoes_added
+    # Bring a packed lunch on all weekdays
+    bring_packed_lunch_on_weekdays
+  end
+
+  def ensure_appropriate_clothing
+    wheather = @attributes[:weather]
+    day_of_week = @attributes[:day_of_week]
+    if wheather == 'rainy'
       @items << 'pants'
       @items << 'shirt'
       @items << 'umbrella'
-    elsif x == 'cold'
+    elsif wheather == 'cold'
       @items << 'pants'
       @items << 'shirt'
       @items << 'jacket'
@@ -27,25 +33,28 @@ class Backpack
       @items << 'pants'
       @items << 'shirt'
     end
+  end
 
-    # Ensure gym shoes are added to backpack if it's a gym day
-    # Gotta get to the gym on Tuesdays and Thursdays. Wait a sec...
+  def ensure_gym_shoes_added
+    wheather = @attributes[:weather]
+    day_of_week = @attributes[:day_of_week]
     if day_of_week == 'monday' || day_of_week == 'thursday'
-      #add gym shoes to items
       @items << 'gym shoes'
     end
+  end
 
-    # Bring a packed lunch on all weekdays
+  def bring_packed_lunch_on_weekdays
+    wheather = @attributes[:weather]
+    day_of_week = @attributes[:day_of_week]
     if day_of_week != 'saturday' && day_of_week != 'sunday'
       @items << 'packed lunch'
     elsif false
-      # Used to bring snacks on weekend trips, but now I just buy 'em
       @items << 'snacks'
     end
   end
 
   # Prints a summary packing list for Melinda's backpack
-  def my_func
+  def list_of_items
     output = []
     output << "Melinda, here's your packing list!"
     output << "Day: #{@attributes[:day_of_week]}, Weather: #{@attributes[:weather]}"
